@@ -3,24 +3,25 @@
 # AND101 Milestone 1 - **Team/App Name**
 
 Submitted by:
-- **Team Member 1 Name Here**
-- **Team Member 2 Name Here**
-- **etc**
+- **Diego**
+- **Alexia**
+- **Juan**
+- **Kene**
+- **Chinyemba**
 
-Time spent: **1** hours spent in total
+Time spent: **2** hours spent in total
 
 ## Summary
 
-This document provides an overview, project spec, and wireframes for our team's capstone project: An app that **short description of your app**
+This document provides an overview, project spec, and wireframes for our team's capstone project: 
+An app that **An app with most data on Pokémon, their types, locations, moves, and abilities.**
 
 ## Milestone Requirements
-
-<!-- Please be sure to change the [ ] to [x] for any features you completed.  If a feature is not checked [x], you might miss the points for that item! -->
 
 The following REQUIRED features are completed:
 
 - [x] Creation of GitHub Organization and Group Project Repo
-- [ ] Updated Course Portal group info with Group Name and App Description
+- [x] Updated Course Portal group info with Group Name and App Description
 
 The following REQUIRED files are included:
 
@@ -35,7 +36,7 @@ The following REQUIRED files are included:
 
 The following BONUS features are implemented:
 
-- [ ] Added digital wireframe/mockup image(s)
+- [x] Added digital wireframe/mockup image(s)
 - [x] Added a Video/GIF of an interactive prototype
 
 The following EXTRA features are implemented:
