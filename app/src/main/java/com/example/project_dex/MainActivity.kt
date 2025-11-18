@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,69 +25,66 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Project_dexTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // Simple state to decide which screen to show
-                    var currentScreen by remember { mutableStateOf("menu") }
+                // --- START: SINGLE, CORRECTED SCAFFOLD LOGIC ---
 
-                    // A simple back navigation handler
-                    val navigateBackToMenu = { currentScreen = "menu" }
+                // State to decide which screen to show
+                var currentScreen by remember { mutableStateOf("menu") }
 
-                    // Show a top bar with a back button if not on the menu
-                    Scaffold(
-                        modifier = Modifier.padding(innerPadding),
-                        topBar = {
-                            if (currentScreen != "menu") {
-                                TopAppBar(
-                                    title = { Text(currentScreen.replaceFirstChar { it.titlecase() } + " List") },
-                                    navigationIcon = {
-                                        IconButton(onClick = navigateBackToMenu) {
-                                            Icon(
-                                                imageVector = androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
-                                                contentDescription = "Back to Menu"
-                                            )
-                                        }
+                // Back navigation handler
+                val navigateBackToMenu = { currentScreen = "menu" }
+
+                // Use only ONE Scaffold as the root for the screen
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        // Conditionally show the TopAppBar only when NOT on the menu
+                        if (currentScreen != "menu") {
+                            TopAppBar(
+                                title = { Text(currentScreen.replaceFirstChar { it.titlecase() } + " List") },
+                                navigationIcon = {
+                                    IconButton(onClick = navigateBackToMenu) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                            contentDescription = "Back to Menu"
+                                        )
                                     }
-                                )
-                            }
-                        }
-                    ) { scaffoldPadding ->
-                        val screenModifier = Modifier.padding(scaffoldPadding)
-
-                        when (currentScreen) {
-                            "menu" -> MainMenuScreen(
-                                modifier = screenModifier,
-                                onNavigate = { screen -> currentScreen = screen }
+                                }
                             )
-                            "pokemon" -> ListingScreen(
-                                resourceType = "pokemon",
-                                searchHint = "Search for a Pokémon...",
-                                modifier = screenModifier
-                            )
-                            "move" -> ListingScreen(
-                                resourceType = "move",
-                                searchHint = "Search for a Move...",
-                                modifier = screenModifier
-                            )
-                            "ability" -> ListingScreen(
-                                resourceType = "ability",
-                                searchHint = "Search for an Ability...",
-                                modifier = screenModifier
-                            )
-                            // START: New screen cases
-                            "type" -> ListingScreen(
-                                resourceType = "type",
-                                searchHint = "Search for a Pokémon Type...",
-                                modifier = screenModifier
-                            )
-                            "location" -> ListingScreen(
-                                resourceType = "location",
-                                searchHint = "Search for a Location...",
-                                modifier = screenModifier
-                            )
-                            // END: New screen cases
                         }
                     }
+                ) { innerPadding ->
+                    // Apply the padding from the single Scaffold to your content
+                    val screenModifier = Modifier.padding(innerPadding)
+
+                    when (currentScreen) {
+                        "menu" -> MainMenuScreen(
+                            modifier = screenModifier,
+                            onNavigate = { screen -> currentScreen = screen }
+                        )
+                        "pokemon" -> ListingScreen(
+                            resourceType = "pokemon",
+                            searchHint = "Search for a Pokémon...",
+                            modifier = screenModifier
+                        )
+                        "move" -> MovesListScreen()
+                        "ability" -> ListingScreen( // <-- The duplicate is now removed
+                            resourceType = "ability",
+                            searchHint = "Search for an Ability...",
+                            modifier = screenModifier
+                        )
+                        "type" -> ListingScreen(
+                            resourceType = "type",
+                            searchHint = "Search for a Pokémon Type...",
+                            modifier = screenModifier
+                        )
+                        "location" -> ListingScreen(
+                            resourceType = "location",
+                            searchHint = "Search for a Location...",
+                            modifier = screenModifier
+                        )
+                    }
                 }
+                // --- END: SINGLE, CORRECTED SCAFFOLD LOGIC ---
             }
         }
     }
@@ -104,10 +102,8 @@ fun MainMenuScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) 
         MenuButton(text = "Pokedex Listing", onClick = { onNavigate("pokemon") })
         MenuButton(text = "Moves Listing", onClick = { onNavigate("move") })
         MenuButton(text = "Abilities", onClick = { onNavigate("ability") })
-        // START: New buttons
         MenuButton(text = "Pokemon Types", onClick = { onNavigate("type") })
         MenuButton(text = "Pokemon Locations", onClick = { onNavigate("location") })
-        // END: New buttons
     }
 }
 
